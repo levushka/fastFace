@@ -1,4 +1,4 @@
 fastFace
 ========
 
-PHP web portal engine, CMS, shop
+PHP Framework, web portal engine, CMS, shop
