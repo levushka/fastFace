@@ -14,10 +14,6 @@ class gen_col {
 
 	
 	public static function regenerate( array $ff_opt ) {
-		if(FF_IS_PINBA) {
-			$pinba_handler = pinba_timer_start( ['server_name'=>FF_SERVER_NAME, 'fn'=>__METHOD__] );
-		}
-		
 		$languages = \ff\getVal($ff_opt, 'lang', ['he', 'ru', 'en']);
 		//require_once(FF_DIR_CLS.'/gen/gen_arr.php');
 
@@ -280,10 +276,6 @@ class gen_col {
 		}
 
 		\ff\gen_arr::generate( );
-
-		if(FF_IS_PINBA) {
-			pinba_timer_stop( $pinba_handler );
-		}
 	}
 
 

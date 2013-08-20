@@ -4,10 +4,6 @@ namespace ff;
 class role_gen {
 
 	public static function generate( ) {
-		if( FF_IS_PINBA ) {
-			$pinba_handler = pinba_timer_start( [ 'server_name'=>FF_SERVER_NAME, 'fn'=>__METHOD__ ] );
-		}
-		
 		set_time_limit(900);
 		
 		$perm_arr = \ff\dbh::get_all('
@@ -51,10 +47,6 @@ class role_gen {
 		}
 
 		\ff\lcache::set( 'role/list', [FF_VER] );
-		
-		if( FF_IS_PINBA ) {
-			pinba_timer_stop( $pinba_handler );
-		}
 	}
 
 }

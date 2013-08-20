@@ -27,10 +27,6 @@ class gen_tbl {
 	}
 	
 	private static function regenerate( ) {
-		if(FF_IS_PINBA) {
-			$pinba_handler = pinba_timer_start( ['server_name'=>FF_SERVER_NAME, 'fn'=>__METHOD__] );
-		}
-		
 		static::regenerate_db();
 		
 		\ff\dbh::upd('UPDATE `'.FF_DB_NAME.'`.`ff_tbl` `t` LEFT JOIN `'.FF_DB_NAME.'`.`ff_db` `d` ON (`t`.`is_act`=TRUE AND `d`.`is_act`=TRUE AND `d`.`id`=`t`.`ff_db`) LEFT JOIN `information_schema`.`tables` `i` ON (`i`.`table_schema`=`d`.`db` AND `i`.`table_name`=`t`.`tbl`) SET `t`.`is_act`=FALSE WHERE `t`.`is_act`=TRUE AND (`d`.`id` IS NULL OR `d`.`is_act`=FALSE OR `i`.`table_name` IS NULL)');
@@ -46,10 +42,6 @@ class gen_tbl {
 				$tbl_stmt->bind_param('si', $new_json, $value['id']);
 				$tbl_stmt->execute();
 			}
-		}
-		
-		if(FF_IS_PINBA) {
-			pinba_timer_stop( $pinba_handler );
 		}
 	}
 	

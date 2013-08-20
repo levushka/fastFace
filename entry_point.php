@@ -56,17 +56,10 @@ define('FF_IS_DEBUG', (
 	(!FF_IS_DEV && FF_DEBUG_CODE === \ff\getVal($ff_opt, 'prod.debug_code', date('md')))
 	) ? TRUE : FALSE);
 
-define('FF_IS_PINBA', \ff\getVal($ff_opt, 'pinba', TRUE) && extension_loaded('pinba'));
-define('FF_IS_RRDTOOL', \ff\getVal($ff_opt, 'rrdtool', TRUE) && extension_loaded('rrdtool'));
-
 \ff\api::config($ff_opt);
 \ff\cache::config($ff_opt);
 \ff\session_handler::config($ff_opt);
 
-
-if(FF_IS_PINBA) {
-	$pinba_handler = pinba_timer_start(['server_name'=>FF_SERVER_NAME, 'fn'=>'define', 'arg'=>'sess_'.session_id()]);
-}
 
 if(!empty($pre_load['after_sess'])) {
 	\ff\load_and_call($pre_load['after_sess']);
@@ -84,10 +77,6 @@ if(!empty($pre_load['after_sess'])) {
 
 if(!empty($pre_load['end'])) {
 	\ff\load_and_call($pre_load['end']);
-}
-
-if(FF_IS_PINBA) {
-	pinba_timer_stop($pinba_handler);
 }
 
 unset($ff_opt);

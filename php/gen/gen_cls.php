@@ -25,10 +25,6 @@ class gen_cls {
 	
 	
 	private static function regenerate( array $ff_opt ) {
-		if( FF_IS_PINBA ) {
-			$pinba_handler = pinba_timer_start( [ 'server_name'=>FF_SERVER_NAME, 'fn'=>__METHOD__ ] );
-		}
-		
 		$folders = \ff\getVal($ff_opt, 'cls.dir', []);
 		$syntax_check = \ff\getVal($ff_opt, 'cls.syntax_check', TRUE);
 		$syntax_check_cmd = \ff\getVal($ff_opt, 'cls.syntax_check_cmd', TRUE);
@@ -122,10 +118,6 @@ class gen_cls {
 		}
 		
 		static::regenerate_fn($cls_fns);
-		
-		if( FF_IS_PINBA ) {
-			pinba_timer_stop( $pinba_handler );
-		}
 	}
 
 	

@@ -110,20 +110,12 @@ class api {
 		}
 
 		foreach ( $req_arr as $req_key => $req_obj ) {
-			if(FF_IS_PINBA) {
-				$pinba_handler = pinba_timer_start( ['server_name'=>FF_SERVER_NAME, 'fn'=>__METHOD__, 'arg'=>$req_obj[ 0 ]] );
-			}
-			
 			if( !is_array( $req_obj ) || empty($req_obj) || count($req_obj) < 1 ) {
 				throw new \Exception(sprintf('%s: Wrong API command', __METHOD__));
 			}
 			
 			$id_or_url = array_shift( $req_obj );
 			\ff\cls::run( $id_or_url, $req_obj );
-			
-			if(FF_IS_PINBA) {
-				pinba_timer_stop( $pinba_handler );
-			}
 		}
 
 
