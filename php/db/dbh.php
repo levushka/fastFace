@@ -5,9 +5,6 @@ class dbh {
 	
 	private static $db_ver = NULL;
 
-	private static $db_proxy_host = NULL;
-	private static $db_proxy_sites = NULL;
-
 	private static $db_host = NULL;
 	private static $db_user = NULL;
 	private static $db_pass = NULL;
@@ -34,10 +31,7 @@ class dbh {
 		define('FF_ROW_SPEC', 1 << 3);  // 1000
 		define('FF_ROW_ALL', FF_ROW_GUEST | FF_ROW_OWNER | FF_ROW_GROUP | FF_ROW_SPEC); // 1111
 		
-		static::$db_proxy_host = \ff\getVal($ff_opt, 'db.proxy.host');
-		static::$db_proxy_sites = \ff\getVal($ff_opt, 'db.proxy.sites', []);
-
-		static::$db_host = (FF_IS_DEBUG && !empty(static::$db_proxy_host) && is_array(static::$db_proxy_sites) && in_array(FF_HTTP_HOST, static::$db_proxy_sites)) ? static::$db_proxy_host : \ff\getVal($ff_opt, 'db.host', 'localhost:3306');
+		static::$db_host = \ff\getVal($ff_opt, 'db.host', 'localhost:3306');
 		static::$db_user = \ff\getVal($ff_opt, 'db.user', '');
 		static::$db_pass = \ff\getVal($ff_opt, 'db.pass', '');
 		static::$db_names = \ff\getVal($ff_opt, 'db.names', []);
