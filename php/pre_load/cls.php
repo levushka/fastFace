@@ -40,11 +40,11 @@ class cls {
 		
 		$fn_url = is_int($id_or_url) ? \ff\id2url::id2url( 'cls/fn', $id_or_url ) : $id_or_url;
 		
-//		$fn_url_arr = explode('::', $fn_url);
-//		static::autoload( $fn_url_arr[0] );
-//		if( !class_exists( $fn_url_arr[0] ) || !method_exists( $fn_url_arr[0], $fn_url_arr[1] ) ) {
-//			throw new \Exception( sprintf( '%s: %s is not exists', __METHOD__, $fn_url ) );
-//		}
+		$fn_url_arr = explode('::', $fn_url);
+		static::autoload( $fn_url_arr[0] );
+		if( !class_exists( $fn_url_arr[0] ) || !method_exists( $fn_url_arr[0], $fn_url_arr[1] ) ) {
+			throw new \Exception( sprintf( '%s: %s is not exists', __METHOD__, $fn_url ) );
+		}
 		
 		return call_user_func_array( $fn_url, $args );
 	}

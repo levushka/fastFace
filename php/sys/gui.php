@@ -3,7 +3,7 @@ namespace ff;
 
 class gui {
 
-	public static function admin() {
+	public static function render() {
 		
 		if(\ff\getGET('l') != FF_LANG || \ff\getGET('v') != FF_VER || \ff\getGET('t') != FF_TOKEN) {
 			header('Location: admin.php?l='.FF_LANG.'&v='.FF_VER.'&d='.FF_DEBUG_CODE.'&t='.FF_TOKEN);

@@ -41,13 +41,13 @@ class minify {
 		static::$css_keys = array_merge(\ff\getVal($ff_opt, 'minify.css_keys', []), ['ff_css']);
 		static::$js_keys = array_merge(\ff\getVal($ff_opt, 'minify.js_keys', []), ['ff_js', 'ff_lib']);
 		
-		static::$is_jshint = FF_IS_DEV && \ff\getVal($ff_opt, 'dev.jshint', TRUE);
-		static::$jshint_url = \ff\getURL(\ff\getVal($ff_opt, 'dev.jshint_url'));
-		static::$jshint_keys = \ff\getVal($ff_opt, 'dev.jshint_min_keys', ['ff_lib']);
+		static::$is_jshint = FF_IS_DEV && \ff\getVal($ff_opt, 'dev.is_jshint', TRUE);
+		static::$jshint_url = \ff\getURL(\ff\getVal($ff_opt, 'dev.jshint.url'));
+		static::$jshint_keys = \ff\getVal($ff_opt, 'dev.jshint.min_keys', ['ff_lib']);
 		static::$jshint_err = [
 			'predef'=>array_merge(
-				\ff\getVal($ff_opt, 'dev.jshint_predef', []),
-				['fastFace', 'Slick', 'nicEditor', 'str_repeat', 'str_pad', 'date', 'strtotime', 'sprintf', 'number_format', 'array_fill_keys', 'pack', 'escape']
+				\ff\getVal($ff_opt, 'dev.jshint.predef', []),
+				['fastFace', 'nicEditor', 'str_repeat', 'str_pad', 'date', 'strtotime', 'sprintf', 'number_format', 'array_fill_keys', 'pack', 'escape']
 			),
 			'bitwise'=>FALSE, 'browser'=>TRUE, 'curly'=>TRUE, 'debug'=>FALSE, 'devel'=>TRUE, 'eqeqeq'=>TRUE, 'evil'=>TRUE, 'jquery'=>TRUE, 'forin'=>TRUE, 'immed'=>TRUE, 'latedef'=>TRUE, 'newcap'=>FALSE, 'noarg'=>FALSE, 'noempty'=>TRUE, 'nonew'=>TRUE, 'nomen'=>FALSE, 'onevar'=>FALSE, 'plusplus'=>FALSE, 'regexp'=>TRUE, 'strict'=>FALSE, 'trailing'=>TRUE, 'undef'=>TRUE, 'white'=>FALSE
 		];

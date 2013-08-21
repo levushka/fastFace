@@ -21,11 +21,11 @@ class cache {
 		define('FF_IS_JS_STORAGE', \ff\getVal($ff_opt, 'cache.js_storage', FALSE));
 		define('FF_IS_COMPRESS', \ff\getVal($ff_opt, 'output_gzip', TRUE) && strpos(\ff\getSERVER('HTTP_ACCEPT_ENCODING'), 'gzip' ) !== FALSE );
 
-		$cache = \ff\getVal($ff_opt, 'cache.server', ['file_storage', 'apc', 'memcached']);
-		static::$is_apc = $cache[0] === 'apc' && extension_loaded('apc');
-		static::$is_wincache = $cache[0] === 'wincache' && extension_loaded('wincache');
-		static::$is_memcache = $cache[0] === 'memcache' && extension_loaded('memcache');
-		static::$is_memcached = $cache[0] === 'memcached' && extension_loaded('memcached');
+		$cache = \ff\getVal($ff_opt, 'cache.server', 'file_storage');
+		static::$is_apc = $cache === 'apc' && extension_loaded('apc');
+		static::$is_wincache = $cache === 'wincache' && extension_loaded('wincache');
+		static::$is_memcache = $cache === 'memcache' && extension_loaded('memcache');
+		static::$is_memcached = $cache === 'memcached' && extension_loaded('memcached');
 		static::$is_file = !static::$is_apc && !static::$is_wincache && !static::$is_memcache && !static::$is_memcached;
 		
 		if(static::$is_file) {

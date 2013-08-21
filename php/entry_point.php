@@ -1,10 +1,7 @@
 <?
 namespace ff;
 
-define('FF_DIR', str_replace( '\\', '/', __DIR__));
-
-require_once(FF_DIR.'/config.php');
-
+define('FF_DIR', realpath(__DIR__.'/../'));
 define('FF_DIR_CLS', FF_DIR.'/php');
 define('FF_DIR_PHP_LIB', FF_DIR.'/php_lib');
 define('FF_DIR_JS_LIB', FF_DIR.'/js_lib');
@@ -30,14 +27,15 @@ require_once(FF_DIR_CLS.'/user/login.php');
 require_once(FF_DIR_CLS.'/db/dbh.php');
 require_once(FF_DIR_CLS.'/db/db_fn.php');
 
+require_once(FF_DIR.'/config.php');
 
-define('FF_DIR_ROOT', str_replace( '\\', '/', \ff\getVal($ff_opt, 'root_dir', \ff\getSERVER('DOCUMENT_ROOT', realpath(FF_DIR.'/../../')))) );
-define('FF_DIR_HOME', str_replace( '\\', '/', \ff\getVal($ff_opt, 'home_dir', \ff\getSERVER('HOME', realpath(FF_DIR_ROOT.'/../')))) );
-define('FF_DIR_TMP',  str_replace( '\\', '/', \ff\getVal($ff_opt, 'tmp_dir', is_dir(FF_DIR_HOME.'/tmp') ? FF_DIR_HOME.'/tmp': sys_get_temp_dir())) );
+define('FF_DIR_ROOT', \ff\getVal($ff_opt, 'dir.root', \ff\getSERVER('DOCUMENT_ROOT', __DIR__)));
+define('FF_DIR_HOME', \ff\getVal($ff_opt, 'dir.home', getenv('HOME')));
+define('FF_DIR_TMP',  \ff\getVal($ff_opt, 'dir.tmp', is_dir(FF_DIR_HOME.'/tmp') ? FF_DIR_HOME.'/tmp': sys_get_temp_dir()));
 
-$pre_load = \ff\getVal($ff_opt, 'pre_load', []);
-if(!empty($pre_load['start'])) {
-	\ff\load_and_call($pre_load['start']);
+$extra_call = \ff\getVal($ff_opt, 'extra_call', []);
+if(!empty($extra_call['start'])) {
+	\ff\require_and_apply($extra_call['start']);
 }
 
 define('FF_IS_WIN', strtoupper(substr(PHP_OS, 0, 3)) === 'WIN' ? TRUE : FALSE);
@@ -53,7 +51,7 @@ define('FF_IS_DEV', !in_array(FF_SERVER_NAME, \ff\getVal($ff_opt, 'prod.sites', 
 define('FF_IS_DEBUG', (
 	(FF_IS_DEV && FF_DEBUG_CODE !== '999')
 	||
-	(!FF_IS_DEV && FF_DEBUG_CODE === \ff\getVal($ff_opt, 'prod.debug_code', date('md')))
+	(!FF_IS_DEV && FF_DEBUG_CODE === \ff\getVal($ff_opt, 'debug.code', date('md')))
 	) ? TRUE : FALSE);
 
 \ff\api::config($ff_opt);
@@ -61,8 +59,8 @@ define('FF_IS_DEBUG', (
 \ff\session_handler::config($ff_opt);
 
 
-if(!empty($pre_load['after_sess'])) {
-	\ff\load_and_call($pre_load['after_sess']);
+if(!empty($extra_call['after_sess'])) {
+	\ff\require_and_apply($extra_call['after_sess']);
 }
 
 \ff\lang::config($ff_opt);
@@ -75,9 +73,9 @@ if(!empty($pre_load['after_sess'])) {
 \ff\minify::config($ff_opt);
 \ff\login::config($ff_opt);
 
-if(!empty($pre_load['end'])) {
-	\ff\load_and_call($pre_load['end']);
+if(!empty($extra_call['end'])) {
+	\ff\require_and_apply($extra_call['end']);
 }
 
 unset($ff_opt);
-unset($pre_load);
+unset($extra_call);

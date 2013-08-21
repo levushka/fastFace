@@ -83,7 +83,7 @@ class login {
 
 		$config = \ff\getVal($ff_opt, 'login.config');
 		if(!empty($config)) {
-			\ff\load_and_call($config);
+			\ff\require_and_apply($config);
 		}
 	}
 
@@ -499,7 +499,7 @@ class login {
 			$_SESSION[$token]['role'] =  static::getPermissions($user['role'], $user['type']);
 
 			if(!empty(static::$login_ok)) {
-				\ff\load_and_call(static::$login_ok, $user);
+				\ff\require_and_apply(static::$login_ok, [$user]);
 			}
 			
 			static::clear_user_cache(['user_id'=>$user['id'], 'no_exit'=>TRUE, 'quiet'=>TRUE]);

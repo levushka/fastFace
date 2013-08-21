@@ -110,22 +110,54 @@ function boolV( $var ) {
 	return FALSE;
 }
 
-function load_and_call( array $files, $arg = NULL) {
-	if(!empty($files) && is_array($files)) {
-		foreach ( $files as $key => $val ) {
-			if( count($val) === 1 || (count($val) >= 3 && !class_exists( $val[1] )) ) {
-				$file = 0 === strpos( $val[0], '//' ) ? FF_DIR_ROOT.'/'.substr( $val[0], 2 ) : $val[0];
-				if(is_file($file)) {
-					require_once($file);
-				} else {
-					throw new \Exception( sprintf( '%s: File [%s] not found', __METHOD__, $val[0] ) );
-				}
+function require_and_apply( array $list, $args = NULL) {
+	foreach ( $list as $key => $val ) {
+		if( is_string($val) && strpos( $val, '.php' ) !== FALSE ) {
+			$file = 0 === strpos( $val, '//' ) ? FF_DIR_ROOT.'/'.substr( $val, 2 ) : $val;
+			if( is_file($file) ) {
+				require_once($file);
+			} else {
+				throw new \Exception( sprintf( '%s: File [%s] not found', __METHOD__, $val ) );
 			}
+		} else {
+			if(is_array($val)) {
+				$func_method = $val[0];
+				$func_method_args = isset($val[1]) ? $val[1] : $args;
+			} else {
+				$func_method = $val;
+				$func_method_args = $args;
+			}
+			$delimeter_pos = strpos( $func_method, '::' );
+			if( $delimeter_pos === FALSE ) {
+				if(function_exists( $func_method )) {
+					return call_user_func_array( $func_method, $func_method_args );
+				} else {
+					throw new \Exception( sprintf( '%s: Function [%s] not found', __METHOD__, $func_method ) );
+				}
+			} else {
+				$class = substr($func_method, 0, $delimeter_pos);
+				$method = substr($func_method, $delimeter_pos+2);
+				if( !class_exists( $class )) {
+					\ff\cls::autoload($class);
+				}
+				if( class_exists( $class ) ){
+					if( method_exists( $class, $method ) ){
+						return call_user_func_array( $func_method, $func_method_args );
+					} else {
+						throw new \Exception( sprintf( '%s: Method [%s] not found', __METHOD__, $func_method ) );
+					}				
+				} else {
+					throw new \Exception( sprintf( '%s: Class [%s] not found', __METHOD__, $func_method ) );
+				}				
+			}
+		}
+
+	}
 			
-			if(count($val) >= 3) {
+			if( is_array($val) ) {
 				if( class_exists( $val[1] ) ) {
 					if( method_exists( $val[1], $val[2] ) ) {
-						return call_user_func( $val[1].'::'.$val[2], !empty($val[3]) ? $val[3] : $arg );
+						return call_user_func( $val[1].'::'.$val[2], !empty($val[3]) ? $val[3] : $args );
 					} else {
 						throw new \Exception( sprintf( '%s: Method %s::%s not found', __METHOD__, $val[1], $val[2] ) );
 					}

@@ -1,4 +1,6 @@
 <?
+//file_put_contents(FF_DIR_TMP.'/debug.log', date("H:i:s").", "_______MSG_______\n", FILE_APPEND);
+
 namespace ff;
 
 class err {
@@ -30,8 +32,8 @@ class err {
 		JSON_ERROR_UTF8           => 'Malformed UTF-8 characters, possibly incorrectly encoded JSON'
 	);
 	
-	private static $file_err = TRUE;
-	private static $file_err_detail = TRUE;
+	private static $file_err = NULL;
+	private static $file_err_detail = NULL;
 	private static $email_err = NULL;
 	
 	private static $is_throw_trace = FALSE;
@@ -48,18 +50,18 @@ class err {
 	public static function config(array $ff_opt) {
 		static::$file_err = FF_DIR_TMP.'/error_'.FF_SERVER_NAME.FF_SERVER_PORT.'.log';
 		static::$file_err_detail = FF_DIR_TMP.'/error_detail_'.FF_SERVER_NAME.FF_SERVER_PORT.'.log';
-		static::$email_err = \ff\getVal($ff_opt, 'error.email', 'lev@kitsis.ca');
+		static::$email_err = \ff\getVal($ff_opt, 'err.email');
 		
-		static::$is_throw_trace = \ff\getVal($ff_opt, 'err.throw_trace', FALSE);
-		static::$is_throw_cookie = \ff\getVal($ff_opt, 'err.throw_cookie', FALSE);
-		static::$is_throw_get = \ff\getVal($ff_opt, 'err.throw_get', FALSE);
-		static::$is_throw_post = \ff\getVal($ff_opt, 'err.throw_post', FALSE);
-		static::$is_throw_request = \ff\getVal($ff_opt, 'err.throw_request', FALSE);
-		static::$is_throw_files = \ff\getVal($ff_opt, 'err.throw_files', FALSE);
-		static::$is_throw_env = \ff\getVal($ff_opt, 'err.throw_env', FALSE);
-		static::$is_throw_session = \ff\getVal($ff_opt, 'err.throw_session', FALSE);
-		static::$is_throw_server = \ff\getVal($ff_opt, 'err.throw_context', FALSE);
-		static::$is_throw_context = \ff\getVal($ff_opt, 'err.throw_trace', FALSE);
+		static::$is_throw_trace = \ff\getVal($ff_opt, 'err.throw.trace', FALSE);
+		static::$is_throw_cookie = \ff\getVal($ff_opt, 'err.throw.cookie', FALSE);
+		static::$is_throw_get = \ff\getVal($ff_opt, 'err.throw.get', FALSE);
+		static::$is_throw_post = \ff\getVal($ff_opt, 'err.throw.post', FALSE);
+		static::$is_throw_request = \ff\getVal($ff_opt, 'err.throw.request', FALSE);
+		static::$is_throw_files = \ff\getVal($ff_opt, 'err.throw.files', FALSE);
+		static::$is_throw_env = \ff\getVal($ff_opt, 'err.throw.env', FALSE);
+		static::$is_throw_session = \ff\getVal($ff_opt, 'err.throw.session', FALSE);
+		static::$is_throw_server = \ff\getVal($ff_opt, 'err.throw.context', FALSE);
+		static::$is_throw_context = \ff\getVal($ff_opt, 'err.throw.trace', FALSE);
 
 		set_time_limit((FF_IS_DEBUG || FF_IS_DEV) ? 360 : 30);
 		ini_set('display_errors', (FF_IS_DEBUG || FF_IS_DEV) ? '1' : '0');
