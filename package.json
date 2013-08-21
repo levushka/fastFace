@@ -1,0 +1,25 @@
+{
+	"name": "fastFace",
+	"title": "fastFace",
+	"description": "PHP Framework, web portal engine",
+	"version": "2.0",
+	"homepage": "https://github.com/levushka/fastFace",
+	"author": {
+		"name": "Lev Kitsis",
+		"url": "https://github.com/levushka"
+	},
+	"maintainers": [
+		{
+			"name": "Lev Kitsis",
+			"email": "lev@kitsis.ca",
+			"url": "https://github.com/levushka"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/levushka/fastFace.git"
+	},
+	"bugs": "https://github.com/levushka/fastFace",
+	"dependencies": {},
+	"keywords": []
+}
