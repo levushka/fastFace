@@ -2,6 +2,7 @@
 	"name": "levushka/fastFace",
 	"type": "framework",
 	"description": "Minify is a PHP5 Framework, web portal engine",
+	"version": "1.0.0",
 	"homepage": "https://github.com/levushka/fastFace/",
 	"authors": [
 		{
